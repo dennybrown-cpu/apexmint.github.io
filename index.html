@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ApexMint Wallet</title>
+  <style>
+
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.lang-select {
+  background: var(--bg-2);
+  color: var(--text-1);
+  border: 1px solid var(--primary);
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+.lang-select:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+.lang-select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(20, 195, 142, 0.5);
+}
+
+
+
+
+    /* === YOUR ORIGINAL CSS UNCHANGED === */
+    body {
+      background-color: #0f172a;
+      color: #e0f2fe;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .ticker-container {
+      background: #1e293b;
+      border-radius: 16px;
+      padding: 20px 30px;
+      width: 300px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      overflow: hidden;
+      align-self: center;
+      justify-items: center;
+      justify-self: center;
+    }
+    .transaction {
+      transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+      opacity: 0;
+      transform: translateY(20px);
+      position: absolute;
+      width: 100%;
+    }
+    .transaction.active {
+      opacity: 1;
+      transform: translateY(0);
+      position: relative;
+    }
+    .type {
+      font-size: 0.8rem;
+      color: #7dd3fc;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    .amount {
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+    .amount.deposit {
+      color: #34d399;
+    }
+    .amount.withdrawal {
+      color: #f87171;
+    }
+    .user {
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      margin-top: 5px;
+    }
+    .ticker-wrapper {
+      position: relative;
+      height: 100px;
+    }
+    :root {
+      --bg-1: #0f0f14;
+      --bg-2: #1a1a22;
+      --primary: #1e90ff;
+      --text-1: #f1f1f1;
+      --text-2: #c5c5c5;
+      --accent: #14c38e;
+      --down: #e74c3c;
+    }
+    body.light {
+      --bg-1: #f1f1f1;
+      --bg-2: #ffffff;
+      --text-1: #111111;
+      --text-2: #4b4b4b;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-1);
+      color: var(--text-1);
+      min-height: 100vh;
+    }
+    header {
+      background: var(--bg-2);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+    .logo { font-size: 1.4rem; font-weight: bold; }
+    .logo span { color: var(--primary); }
+    #themeToggle { font-size: 1.25rem; cursor: pointer; background: none; border: none; color: var(--text-1); transition: transform .25s; }
+    #themeToggle:hover { transform: rotate(20deg); }
+    .wallet {
+      max-width: 960px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: var(--bg-2);
+      border-radius: 10px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.4);
+      opacity: 0;
+      transform: translateY(40px);
+      animation: fadeInUp .9s cubic-bezier(.25,.8,.25,1) forwards;
+    }
+    @keyframes fadeInUp { to { opacity: 1; transform: translateY(0);} }
+    .wallet h2 { text-align: center; margin-bottom: 2rem; color: var(--primary); }
+    .balance-box {
+      background: var(--bg-1);
+      padding: 1.5rem;
+      border-radius: 10px;
+      text-align: center;
+      margin-bottom: 2rem;
+      animation: fadeSlide .8s ease both .2s;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    .assets { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem; }
+    .asset {
+      background: var(--bg-1);
+      border-radius: 10px;
+      padding: 1rem;
+      text-align: center;
+      box-shadow: 0 0 8px rgba(0,0,0,0.3);
+      transition: transform .25s;
+      animation: fadeSlide .8s ease both .3s;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    .asset:hover { transform: translateY(-4px) scale(1.03); }
+    .asset h4 { margin: .4rem 0; }
+    .asset p { color: var(--text-2); }
+    @keyframes fadeSlide { to { opacity: 1; transform: translateY(0);} }
+    .actions { display: flex; justify-content: center; gap: 1rem; margin-top: 2rem; animation: fadeSlide .8s ease both .4s; opacity: 0; transform: translateY(30px); }
+    .btn {
+      padding: .75rem 1.5rem;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn.primary { background: var(--primary); color: #fff; }
+    .btn.secondary { background: transparent; border: 1px solid var(--primary); color: var(--primary); }
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 6px 14px rgba(0,0,0,.35); }
+    .btn:active { transform: translateY(-1px); }
+  </style>
+</head>
+<body>
+
+ <header>
+  <div class="logo">Apex<span>Mint</span> Wallet</div>
+  <div class="header-controls">
+    <select id="languageSelect" class="lang-select">
+      <option value="en">English</option>
+      <option value="fr">Français</option>
+      <option value="de">Deutsch</option>
+      <option value="es">Español</option>
+    </select>
+    <button id="themeToggle" title="Toggle theme">🌙</button>
+  </div>
+</header>
+
+
+
+
+<!-- ENGLISH -->
+<section id="lang-en" class="wallet">
+  <h2>Welcome, Amalia</h2>
+  <div class="balance-box">
+    <h3>Total Balance</h3>
+    <div class="amount" style="font-size:2rem;font-weight:bold;color:var(--accent)">$121149</div>
+  </div>
+  <div class="assets">
+    <div class="asset"><h4>Bitcoin</h4><p>1 BTC</p><p>$121149.07</p></div>
+    <div class="asset"><h4>Ethereum</h4><p>0 ETH</p><p>$0</p></div>
+    <div class="asset"><h4>Solana</h4><p>0 SOL</p><p>$0</p></div>
+    <div class="asset"><h4>USDT</h4><p>0 USDT</p><p>$0</p></div>
+  </div>
+  <div class="actions">
+    <button onclick="window.location.href='deposit.html';" class="btn primary">Deposit</button>
+    <button class="btn secondary">Receive</button>
+    <button onclick="location.href='withdrawal.html';" class="btn secondary">Withdraw</button>
+  </div>
+</section>
+
+<!-- FRENCH -->
+<section id="lang-fr" class="wallet" style="display:none;">
+  <h2>Bienvenue, Amalia</h2>
+  <div class="balance-box">
+    <h3>Solde Total</h3>
+    <div class="amount" style="font-size:2rem;font-weight:bold;color:var(--accent)">€121349</div>
+  </div>
+  <div class="assets">
+    <div class="asset"><h4>Bitcoin</h4><p>1 BTC</p><p>€121349</p></div>
+    <div class="asset"><h4>Ethereum</h4><p>0 ETH</p><p>€0</p></div>
+    <div class="asset"><h4>Solana</h4><p>0 SOL</p><p>€0</p></div>
+    <div class="asset"><h4>USDT</h4><p>0 USDT</p><p>€0</p></div>
+  </div>
+  <div class="actions">
+    <button onclick="window.location.href='deposit.html';" class="btn primary">Dépôt</button>
+    <button class="btn secondary">Recevoir</button>
+    <button onclick="location.href='withdrawal.html';" class="btn secondary">Retrait</button>
+  </div>
+</section>
+
+<!-- GERMAN -->
+<section id="lang-de" class="wallet" style="display:none;">
+  <h2>Willkommen, Amalia</h2>
+  <div class="balance-box">
+    <h3>Gesamtguthaben</h3>
+    <div class="amount" style="font-size:2rem;font-weight:bold;color:var(--accent)">€121,719</div>
+  </div>
+  <div class="assets">
+    <div class="asset"><h4>Bitcoin</h4><p>1 BTC</p><p>€121,719</p></div>
+    <div class="asset"><h4>Ethereum</h4><p>0 ETH</p><p>€0</p></div>
+    <div class="asset"><h4>Solana</h4><p>0 SOL</p><p>€0</p></div>
+    <div class="asset"><h4>USDT</h4><p>0 USDT</p><p>€0</p></div>
+  </div>
+  <div class="actions">
+    <button onclick="window.location.href='deposit.html';" class="btn primary">Einzahlen</button>
+    <button class="btn secondary">Empfangen</button>
+    <button onclick="location.href='withdrawal.html';" class="btn secondary">Abheben</button>
+  </div>
+</section>
+
+<!-- SPANISH -->
+<section id="lang-es" class="wallet" style="display:none;">
+  <h2>Bienvenido, Amalia</h2>
+  <div class="balance-box">
+    <h3>Saldo Total</h3>
+    <div class="amount" style="font-size:2rem;font-weight:bold;color:var(--accent)">€121,719</div>
+  </div>
+  <div class="assets">
+    <div class="asset"><h4>Bitcoin</h4><p>1 BTC</p><p>€121,719</p></div>
+    <div class="asset"><h4>Ethereum</h4><p>0 ETH</p><p>€0</p></div>
+    <div class="asset"><h4>Solana</h4><p>0 SOL</p><p>€0</p></div>
+    <div class="asset"><h4>USDT</h4><p>0 USDT</p><p>€0</p></div>
+  </div>
+  <div class="actions">
+    <button onclick="window.location.href='deposit.html';" class="btn primary">Depositar</button>
+    <button class="btn secondary">Recibir</button>
+    <button onclick="location.href='withdrawal.html';" class="btn secondary">Retirar</button>
+  </div>
+</section>
+
+<!-- keep ticker section -->
+<div class="ticker-container">
+    <div class="ticker-wrapper">
+      <div class="transaction active">
+        <div class="type">Deposit</div>
+        <div class="amount deposit">+0.25 ETH</div>
+        <div class="user">George Carter | 0x3a9...b1C4</div>
+      </div>
+      <div class="transaction">
+        <div class="type">Deposit</div>
+        <div class="amount deposit">+1.2 BTC</div>
+        <div class="user">Nathaniel James | 0x8f4...9E23</div>
+      </div>
+      <div class="transaction">
+        <div class="type">Deposit</div>
+        <div class="amount deposit">+1000 USDT</div>
+        <div class="user">Brandon Hayes | 0x55d...Ca0F</div>
+      </div>
+      <div class="transaction">
+        <div class="type">DEPOSIT</div>
+        <div class="amount deposit">+2.7 SOL</div>
+        <div class="user">Lucas Reynolds | 0x12a...Af21</div>
+      </div>
+      <div class="transaction">
+        <div class="type">DEPOSIT</div>
+        <div class="amount deposit">+3.9 SOL</div>
+        <div class="user">Emily Richardson | 0x62z...At57</div>
+      </div>
+      <div class="transaction">
+        <div class="type">Deposit</div>
+        <div class="amount deposit">+1500 USDT</div>
+        <div class="user">Liam Harrison | 0x65f...Ea0J</div>
+      </div>
+      <div class="transaction">
+        <div class="type">Deposit</div>
+        <div class="amount deposit">+450 USDT</div>
+        <div class="user">Sophia Turner | 0x25e...Fa0P</div>
+      </div>
+      <div class="transaction">
+        <div class="type">Deposit</div>
+        <div class="amount deposit">+650 USDT</div>
+        <div class="user">LuKas Sneider | 0x26b...Gi24</div>
+      </div>
+      <div class="transaction">
+        <div class="type">Deposit</div>
+        <div class="amount deposit">+800 USDT</div>
+        <div class="user">Jonas Muller | 0x43b...F9tH</div>
+      </div>
+    </div>
+  </div>
+
+<script>
+function showLang(lang) {
+  document.querySelectorAll('.wallet').forEach(el => el.style.display='none');
+  document.getElementById('lang-'+lang).style.display='block';
+}
+</script>
+<script>
+const toggle = document.getElementById('themeToggle');
+toggle.addEventListener('click', () => {
+  document.body.classList.toggle('light');
+  toggle.textContent = document.body.classList.contains('light') ? '🌞' : '🌙';
+});
+</script>
+<script>
+const languageSelect = document.getElementById('languageSelect');
+
+function showLang(lang) {
+  document.querySelectorAll('.wallet').forEach(el => el.style.display='none');
+  const section = document.getElementById('lang-' + lang);
+  if (section) {
+    section.style.display = 'block';
+    languageSelect.value = lang;
+  } else {
+    // fallback to English if not found
+    document.getElementById('lang-en').style.display = 'block';
+    languageSelect.value = 'en';
+  }
+}
+
+// Detect browser language on load
+document.addEventListener('DOMContentLoaded', () => {
+  const browserLang = navigator.language.slice(0,2); // e.g. 'en', 'fr'
+  if (['en','fr','de','es'].includes(browserLang)) {
+    showLang(browserLang);
+  } else {
+    showLang('en');
+  }
+});
+
+// Change language on dropdown change
+languageSelect.addEventListener('change', (e) => {
+  showLang(e.target.value);
+});
+</script>
+
+ <script>
+    const transactions = document.querySelectorAll('.transaction');
+    let currentIndex = 0;
+
+    setInterval(() => {
+      transactions[currentIndex].classList.remove('active');
+      currentIndex = (currentIndex + 1) % transactions.length;
+      transactions[currentIndex].classList.add('active');
+    }, 5000);
+  </script>
+</body>
+</html>
